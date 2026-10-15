@@ -1,4 +1,3 @@
-
 import "dotenv/config";
 
 if (process.env.VERCEL_ENV === "production") {
@@ -17,26 +16,39 @@ async function main() {
   }
 
   await prisma.event.createMany({
-    data: [
-      {
-        title: "Sommerfest",
-        location: "Kapstadt",
-        date: new Date("2027-01-15T16:00:00"),
-        isPublic: true,
-      },
-      {
-        title: "Coding Workshop",
-        location: "Online",
-        date: new Date("2027-02-10T10:00:00"),
-        isPublic: true,
-      },
-      {
-        title: "Privates Treffen",
-        location: "Stellenbosch",
-        date: new Date("2027-03-05T18:00:00"),
-        isPublic: false,
-      },
-    ],
+data: [
+  {
+    title: "Sommerfest",
+    location: "Kapstadt",
+    date: new Date("2027-01-15T16:00:00"),
+    isPublic: true,
+  },
+  {
+    title: "Coding Workshop",
+    location: "Online",
+    date: new Date("2027-02-10T10:00:00"),
+    isPublic: true,
+  },
+  {
+    title: "Privates Treffen",
+    location: "Stellenbosch",
+    date: new Date("2027-03-05T18:00:00"),
+    isPublic: false,
+  },
+  {
+    title: "Web Development Meetup",
+    location: "Cape Town",
+    date: new Date("2027-04-20T14:00:00"),
+    isPublic: true,
+  },
+  {
+    title: "Geburtstagsfeier",
+    location: "Paarl",
+    date: new Date("2027-05-12T19:00:00"),
+    isPublic: false,
+  },
+],
+
   });
 
   console.log("Beispiel-Events wurden angelegt.");
