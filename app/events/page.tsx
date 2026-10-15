@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { createEvent } from "./actions";
 import { prisma } from "../lib/prisma";
+import { connection } from "next/server";
 
 export default function EventsPage({
   searchParams,
@@ -13,7 +14,9 @@ export default function EventsPage({
         <SuccessMessage searchParams={searchParams} />
       </Suspense>
 
-      <h1 className="mb-6 text-3xl font-bold">Events erstellen</h1>
+      <h1 className="mb-6 text-3xl font-bold">
+        Events erstellen ✨ Preview Test
+      </h1>
 
       <form action={createEvent} className="space-y-4">
         <div>
@@ -76,6 +79,8 @@ export default function EventsPage({
 }
 
 async function PublicEvents() {
+  await connection();
+
   const events = await prisma.event.findMany({
     where: {
       isPublic: true,
