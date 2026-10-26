@@ -28,10 +28,12 @@ export type AggregateEvent = {
 
 export type EventAvgAggregateOutputType = {
   id: number | null
+  authorId: number | null
 }
 
 export type EventSumAggregateOutputType = {
   id: number | null
+  authorId: number | null
 }
 
 export type EventMinAggregateOutputType = {
@@ -40,6 +42,7 @@ export type EventMinAggregateOutputType = {
   location: string | null
   date: Date | null
   isPublic: boolean | null
+  authorId: number | null
 }
 
 export type EventMaxAggregateOutputType = {
@@ -48,6 +51,7 @@ export type EventMaxAggregateOutputType = {
   location: string | null
   date: Date | null
   isPublic: boolean | null
+  authorId: number | null
 }
 
 export type EventCountAggregateOutputType = {
@@ -56,16 +60,19 @@ export type EventCountAggregateOutputType = {
   location: number
   date: number
   isPublic: number
+  authorId: number
   _all: number
 }
 
 
 export type EventAvgAggregateInputType = {
   id?: true
+  authorId?: true
 }
 
 export type EventSumAggregateInputType = {
   id?: true
+  authorId?: true
 }
 
 export type EventMinAggregateInputType = {
@@ -74,6 +81,7 @@ export type EventMinAggregateInputType = {
   location?: true
   date?: true
   isPublic?: true
+  authorId?: true
 }
 
 export type EventMaxAggregateInputType = {
@@ -82,6 +90,7 @@ export type EventMaxAggregateInputType = {
   location?: true
   date?: true
   isPublic?: true
+  authorId?: true
 }
 
 export type EventCountAggregateInputType = {
@@ -90,6 +99,7 @@ export type EventCountAggregateInputType = {
   location?: true
   date?: true
   isPublic?: true
+  authorId?: true
   _all?: true
 }
 
@@ -185,6 +195,7 @@ export type EventGroupByOutputType = {
   location: string
   date: Date
   isPublic: boolean
+  authorId: number | null
   _count: EventCountAggregateOutputType | null
   _avg: EventAvgAggregateOutputType | null
   _sum: EventSumAggregateOutputType | null
@@ -216,6 +227,8 @@ export type EventWhereInput = {
   location?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   isPublic?: Prisma.BoolFilter<"Event"> | boolean
+  authorId?: Prisma.IntNullableFilter<"Event"> | number | null
+  author?: Prisma.XOR<Prisma.AuthorNullableScalarRelationFilter, Prisma.AuthorWhereInput> | null
 }
 
 export type EventOrderByWithRelationInput = {
@@ -224,6 +237,8 @@ export type EventOrderByWithRelationInput = {
   location?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
+  authorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  author?: Prisma.AuthorOrderByWithRelationInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -235,6 +250,8 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   location?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
   isPublic?: Prisma.BoolFilter<"Event"> | boolean
+  authorId?: Prisma.IntNullableFilter<"Event"> | number | null
+  author?: Prisma.XOR<Prisma.AuthorNullableScalarRelationFilter, Prisma.AuthorWhereInput> | null
 }, "id">
 
 export type EventOrderByWithAggregationInput = {
@@ -243,6 +260,7 @@ export type EventOrderByWithAggregationInput = {
   location?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
+  authorId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EventCountOrderByAggregateInput
   _avg?: Prisma.EventAvgOrderByAggregateInput
   _max?: Prisma.EventMaxOrderByAggregateInput
@@ -259,6 +277,7 @@ export type EventScalarWhereWithAggregatesInput = {
   location?: Prisma.StringWithAggregatesFilter<"Event"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   isPublic?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
+  authorId?: Prisma.IntNullableWithAggregatesFilter<"Event"> | number | null
 }
 
 export type EventCreateInput = {
@@ -266,6 +285,7 @@ export type EventCreateInput = {
   location: string
   date: Date | string
   isPublic?: boolean
+  author?: Prisma.AuthorCreateNestedOneWithoutEventsInput
 }
 
 export type EventUncheckedCreateInput = {
@@ -274,6 +294,7 @@ export type EventUncheckedCreateInput = {
   location: string
   date: Date | string
   isPublic?: boolean
+  authorId?: number | null
 }
 
 export type EventUpdateInput = {
@@ -281,6 +302,7 @@ export type EventUpdateInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  author?: Prisma.AuthorUpdateOneWithoutEventsNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
@@ -289,6 +311,7 @@ export type EventUncheckedUpdateInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  authorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type EventCreateManyInput = {
@@ -297,6 +320,7 @@ export type EventCreateManyInput = {
   location: string
   date: Date | string
   isPublic?: boolean
+  authorId?: number | null
 }
 
 export type EventUpdateManyMutationInput = {
@@ -312,6 +336,17 @@ export type EventUncheckedUpdateManyInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  authorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type EventListRelationFilter = {
+  every?: Prisma.EventWhereInput
+  some?: Prisma.EventWhereInput
+  none?: Prisma.EventWhereInput
+}
+
+export type EventOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type EventCountOrderByAggregateInput = {
@@ -320,10 +355,12 @@ export type EventCountOrderByAggregateInput = {
   location?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
 }
 
 export type EventAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
 }
 
 export type EventMaxOrderByAggregateInput = {
@@ -332,6 +369,7 @@ export type EventMaxOrderByAggregateInput = {
   location?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
 }
 
 export type EventMinOrderByAggregateInput = {
@@ -340,14 +378,54 @@ export type EventMinOrderByAggregateInput = {
   location?: Prisma.SortOrder
   date?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
 }
 
 export type EventSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type EventCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutAuthorInput, Prisma.EventUncheckedCreateWithoutAuthorInput> | Prisma.EventCreateWithoutAuthorInput[] | Prisma.EventUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutAuthorInput | Prisma.EventCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.EventCreateManyAuthorInputEnvelope
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+}
+
+export type EventUncheckedCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutAuthorInput, Prisma.EventUncheckedCreateWithoutAuthorInput> | Prisma.EventCreateWithoutAuthorInput[] | Prisma.EventUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutAuthorInput | Prisma.EventCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.EventCreateManyAuthorInputEnvelope
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+}
+
+export type EventUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutAuthorInput, Prisma.EventUncheckedCreateWithoutAuthorInput> | Prisma.EventCreateWithoutAuthorInput[] | Prisma.EventUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutAuthorInput | Prisma.EventCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.EventUpsertWithWhereUniqueWithoutAuthorInput | Prisma.EventUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.EventCreateManyAuthorInputEnvelope
+  set?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  disconnect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  delete?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  update?: Prisma.EventUpdateWithWhereUniqueWithoutAuthorInput | Prisma.EventUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.EventUpdateManyWithWhereWithoutAuthorInput | Prisma.EventUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
+}
+
+export type EventUncheckedUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutAuthorInput, Prisma.EventUncheckedCreateWithoutAuthorInput> | Prisma.EventCreateWithoutAuthorInput[] | Prisma.EventUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutAuthorInput | Prisma.EventCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.EventUpsertWithWhereUniqueWithoutAuthorInput | Prisma.EventUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.EventCreateManyAuthorInputEnvelope
+  set?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  disconnect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  delete?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  connect?: Prisma.EventWhereUniqueInput | Prisma.EventWhereUniqueInput[]
+  update?: Prisma.EventUpdateWithWhereUniqueWithoutAuthorInput | Prisma.EventUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.EventUpdateManyWithWhereWithoutAuthorInput | Prisma.EventUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -358,12 +436,96 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type EventCreateWithoutAuthorInput = {
+  title: string
+  location: string
+  date: Date | string
+  isPublic?: boolean
+}
+
+export type EventUncheckedCreateWithoutAuthorInput = {
+  id?: number
+  title: string
+  location: string
+  date: Date | string
+  isPublic?: boolean
+}
+
+export type EventCreateOrConnectWithoutAuthorInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutAuthorInput, Prisma.EventUncheckedCreateWithoutAuthorInput>
+}
+
+export type EventCreateManyAuthorInputEnvelope = {
+  data: Prisma.EventCreateManyAuthorInput | Prisma.EventCreateManyAuthorInput[]
+  skipDuplicates?: boolean
+}
+
+export type EventUpsertWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.EventWhereUniqueInput
+  update: Prisma.XOR<Prisma.EventUpdateWithoutAuthorInput, Prisma.EventUncheckedUpdateWithoutAuthorInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutAuthorInput, Prisma.EventUncheckedCreateWithoutAuthorInput>
+}
+
+export type EventUpdateWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.EventWhereUniqueInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutAuthorInput, Prisma.EventUncheckedUpdateWithoutAuthorInput>
+}
+
+export type EventUpdateManyWithWhereWithoutAuthorInput = {
+  where: Prisma.EventScalarWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateManyMutationInput, Prisma.EventUncheckedUpdateManyWithoutAuthorInput>
+}
+
+export type EventScalarWhereInput = {
+  AND?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
+  OR?: Prisma.EventScalarWhereInput[]
+  NOT?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
+  id?: Prisma.IntFilter<"Event"> | number
+  title?: Prisma.StringFilter<"Event"> | string
+  location?: Prisma.StringFilter<"Event"> | string
+  date?: Prisma.DateTimeFilter<"Event"> | Date | string
+  isPublic?: Prisma.BoolFilter<"Event"> | boolean
+  authorId?: Prisma.IntNullableFilter<"Event"> | number | null
+}
+
+export type EventCreateManyAuthorInput = {
+  id?: number
+  title: string
+  location: string
+  date: Date | string
+  isPublic?: boolean
+}
+
+export type EventUpdateWithoutAuthorInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type EventUncheckedUpdateWithoutAuthorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type EventUncheckedUpdateManyWithoutAuthorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -374,6 +536,8 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   location?: boolean
   date?: boolean
   isPublic?: boolean
+  authorId?: boolean
+  author?: boolean | Prisma.Event$authorArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -382,6 +546,8 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   location?: boolean
   date?: boolean
   isPublic?: boolean
+  authorId?: boolean
+  author?: boolean | Prisma.Event$authorArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -390,6 +556,8 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   location?: boolean
   date?: boolean
   isPublic?: boolean
+  authorId?: boolean
+  author?: boolean | Prisma.Event$authorArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectScalar = {
@@ -398,19 +566,32 @@ export type EventSelectScalar = {
   location?: boolean
   date?: boolean
   isPublic?: boolean
+  authorId?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "location" | "date" | "isPublic", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "location" | "date" | "isPublic" | "authorId", ExtArgs["result"]["event"]>
+export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  author?: boolean | Prisma.Event$authorArgs<ExtArgs>
+}
+export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  author?: boolean | Prisma.Event$authorArgs<ExtArgs>
+}
+export type EventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  author?: boolean | Prisma.Event$authorArgs<ExtArgs>
+}
 
 export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Event"
-  objects: {}
+  objects: {
+    author: Prisma.$AuthorPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
     location: string
     date: Date
     isPublic: boolean
+    authorId: number | null
   }, ExtArgs["result"]["event"]>
   composites: {}
 }
@@ -805,6 +986,7 @@ readonly fields: EventFieldRefs;
  */
 export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  author<T extends Prisma.Event$authorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$authorArgs<ExtArgs>>): Prisma.Prisma__AuthorClient<runtime.Types.Result.GetResult<Prisma.$AuthorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -839,6 +1021,7 @@ export interface EventFieldRefs {
   readonly location: Prisma.FieldRef<"Event", 'String'>
   readonly date: Prisma.FieldRef<"Event", 'DateTime'>
   readonly isPublic: Prisma.FieldRef<"Event", 'Boolean'>
+  readonly authorId: Prisma.FieldRef<"Event", 'Int'>
 }
     
 
@@ -855,6 +1038,10 @@ export type EventFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Event
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
   /**
    * Filter, which Event to fetch.
    */
@@ -874,6 +1061,10 @@ export type EventFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
+  /**
    * Filter, which Event to fetch.
    */
   where: Prisma.EventWhereUniqueInput
@@ -891,6 +1082,10 @@ export type EventFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Event
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
   /**
    * Filter, which Event to fetch.
    */
@@ -940,6 +1135,10 @@ export type EventFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
+  /**
    * Filter, which Event to fetch.
    */
   where?: Prisma.EventWhereInput
@@ -987,6 +1186,10 @@ export type EventFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Event
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
   /**
    * Filter, which Events to fetch.
    */
@@ -1036,6 +1239,10 @@ export type EventCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
+  /**
    * The data needed to create a Event.
    */
   data: Prisma.XOR<Prisma.EventCreateInput, Prisma.EventUncheckedCreateInput>
@@ -1069,6 +1276,10 @@ export type EventCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.EventCreateManyInput | Prisma.EventCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1083,6 +1294,10 @@ export type EventUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Event
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
   /**
    * The data needed to update a Event.
    */
@@ -1135,6 +1350,10 @@ export type EventUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many Events to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1149,6 +1368,10 @@ export type EventUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Event
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
   /**
    * The filter to search for the Event to update in case it exists.
    */
@@ -1176,6 +1399,10 @@ export type EventDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
+  /**
    * Filter which Event to delete.
    */
   where: Prisma.EventWhereUniqueInput
@@ -1196,6 +1423,25 @@ export type EventDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Event.author
+ */
+export type Event$authorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Author
+   */
+  select?: Prisma.AuthorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Author
+   */
+  omit?: Prisma.AuthorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuthorInclude<ExtArgs> | null
+  where?: Prisma.AuthorWhereInput
+}
+
+/**
  * Event without action
  */
 export type EventDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1207,4 +1453,8 @@ export type EventDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Event
    */
   omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
 }

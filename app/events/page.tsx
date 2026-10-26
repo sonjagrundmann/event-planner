@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import clsx from "clsx";
 import {
   createEvent,
   deleteEvent,
@@ -14,16 +15,19 @@ export default function EventsPage({
   searchParams: Promise<{ success?: string }>;
 }) {
   return (
-    <main className="mx-auto max-w-xl p-8">
+    <main className="mx-auto max-w-3xl p-8">
       <Suspense fallback={null}>
         <SuccessMessage searchParams={searchParams} />
       </Suspense>
 
       <h1 className="mb-6 text-3xl font-bold">Events erstellen</h1>
 
-      <form action={createEvent} className="space-y-4">
+      <form
+        action={createEvent}
+        className="space-y-4 rounded-xl border bg-white p-6 shadow-md"
+      >
         <div>
-          <label htmlFor="title" className="mb-1 block">
+          <label htmlFor="title" className="mb-1 block font-medium">
             Titel
           </label>
           <input
@@ -36,7 +40,7 @@ export default function EventsPage({
         </div>
 
         <div>
-          <label htmlFor="location" className="mb-1 block">
+          <label htmlFor="location" className="mb-1 block font-medium">
             Ort
           </label>
           <input
@@ -49,7 +53,7 @@ export default function EventsPage({
         </div>
 
         <div>
-          <label htmlFor="date" className="mb-1 block">
+          <label htmlFor="date" className="mb-1 block font-medium">
             Datum und Uhrzeit
           </label>
           <input
@@ -68,7 +72,7 @@ export default function EventsPage({
 
         <button
           type="submit"
-          className="rounded bg-blue-600 px-4 py-2 text-white"
+          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
         >
           Event speichern
         </button>
@@ -84,13 +88,11 @@ export default function EventsPage({
 async function PublicEvents() {
   await connection();
 
-  const allEvents = await getAllEventsService();
-
-  const events = allEvents.filter((event) => event.isPublic);
+  const events = await getAllEventsService();
 
   return (
     <>
-      <h2 className="mb-4 mt-10 text-2xl font-bold">Öffentliche Events</h2>
+      <h2 className="mb-4 mt-10 text-2xl font-bold">Alle Events</h2>
 
       <form action={deleteAllEvents} className="mb-6">
         <button
@@ -102,30 +104,53 @@ async function PublicEvents() {
       </form>
 
       {events.length === 0 ? (
-        <p>Noch keine öffentlichen Events vorhanden.</p>
+        <p>Noch keine Events vorhanden.</p>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-5">
           {events.map((event) => {
             const isPast = new Date(event.date) < new Date();
 
             return (
               <li
                 key={event.id}
-                className={`rounded border p-4 ${
-                  isPast ? "bg-gray-100 opacity-70" : ""
-                }`}
+                className={clsx(
+                  "rounded-xl border bg-white p-6 shadow-md transition-shadow hover:shadow-lg",
+                  event.isPublic ? "border-green-500" : "border-gray-300",
+                  isPast && "bg-gray-100 opacity-70",
+                )}
               >
-                <h3 className="font-bold">{event.title}</h3>
+                <h3 className="mb-3 text-2xl font-bold text-gray-900">
+                  {event.title}
+                </h3>
 
-                <p>Ort: {event.location}</p>
+                <span
+                  className={clsx(
+                    "inline-block rounded-full px-3 py-1 text-sm font-semibold",
+                    event.isPublic
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-200 text-gray-700",
+                  )}
+                >
+                  {event.isPublic ? "Public" : "Private"}
+                </span>
 
-                <p>Datum: {event.date.toLocaleString("de-DE")}</p>
+                <div className="mt-3 space-y-1 text-gray-600">
+                  <p>
+                    <span className="font-semibold">Ort:</span> {event.location}
+                  </p>
+
+                  <p>
+                    <span className="font-semibold">Datum:</span>{" "}
+                    {event.date.toLocaleString("de-DE")}
+                  </p>
+                </div>
 
                 {isPast && (
                   <p className="mt-2 text-sm font-semibold text-gray-500">
                     Vergangen
                   </p>
                 )}
+
                 <form action={deleteEvent} className="mt-4">
                   <input type="hidden" name="id" value={event.id} />
 
@@ -137,12 +162,21 @@ async function PublicEvents() {
                   </button>
                 </form>
 
-                <form action={updateEvent} className="mt-4 space-y-3">
+                <form
+                  action={updateEvent}
+                  className="mt-4 space-y-3 border-t pt-4"
+                >
                   <input type="hidden" name="id" value={event.id} />
 
                   <div>
-                    <label className="mb-1 block">Titel bearbeiten</label>
+                    <label
+                      htmlFor={`title-${event.id}`}
+                      className="mb-1 block font-medium"
+                    >
+                      Titel bearbeiten
+                    </label>
                     <input
+                      id={`title-${event.id}`}
                       name="title"
                       type="text"
                       defaultValue={event.title}
@@ -152,8 +186,14 @@ async function PublicEvents() {
                   </div>
 
                   <div>
-                    <label className="mb-1 block">Ort bearbeiten</label>
+                    <label
+                      htmlFor={`location-${event.id}`}
+                      className="mb-1 block font-medium"
+                    >
+                      Ort bearbeiten
+                    </label>
                     <input
+                      id={`location-${event.id}`}
                       name="location"
                       type="text"
                       defaultValue={event.location}
@@ -163,10 +203,14 @@ async function PublicEvents() {
                   </div>
 
                   <div>
-                    <label className="mb-1 block">
+                    <label
+                      htmlFor={`date-${event.id}`}
+                      className="mb-1 block font-medium"
+                    >
                       Datum und Uhrzeit bearbeiten
                     </label>
                     <input
+                      id={`date-${event.id}`}
                       name="date"
                       type="datetime-local"
                       defaultValue={new Date(

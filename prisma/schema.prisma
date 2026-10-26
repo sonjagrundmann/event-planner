@@ -7,10 +7,20 @@ datasource db {
   provider = "postgresql"
 }
 
+model Author {
+  id     Int     @id @default(autoincrement())
+  name   String
+  email  String  @unique
+  events Event[]
+}
+
 model Event {
   id       Int      @id @default(autoincrement())
   title    String
   location String
   date     DateTime
   isPublic Boolean  @default(false)
+
+  authorId Int?
+  author   Author?  @relation(fields: [authorId], references: [id], onDelete: SetNull)
 }

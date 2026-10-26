@@ -8,5 +8,6 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Author'
 export type * from './models/Event'
 export type * from './commonInputTypes'
